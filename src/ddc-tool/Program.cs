@@ -34,7 +34,7 @@ namespace Ddc.Tool
                         {
                             foreach (var monitor in monitors)
                             {
-                                monitorList.Append(monitor);
+                                monitorList.Add(monitor);
                             }
                         }
                         else
@@ -52,6 +52,15 @@ namespace Ddc.Tool
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
+
+            foreach(var monitor in monitorList)
+            {
+                var brightness = NativeInterop.GetMonitorBrightness(monitor);
+                //NativeInterop.SetMonitorBrightness(monitor, (brightness - 0.5));
+                Console.WriteLine(monitor.MonitorDescription);
+            }
+
+            NativeInterop.DestroyPhysicalMonitors((uint)monitorList.Count, monitorList.ToArray());
 
         }
     }
